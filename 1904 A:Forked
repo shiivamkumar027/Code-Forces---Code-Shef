@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+typedef long long ll;
+typedef pair<ll, ll> pii;
+ 
+int main() {
+    int t;
+    cin >> t;
+ 
+    while (t--) {
+        ll a, b;
+        cin >> a >> b;
+        ll x_K, y_K, x_Q, y_Q;
+        cin >> x_K >> y_K;
+        cin >> x_Q >> y_Q;
+ 
+        // Sets to store positions
+        set<pii> king_positions, queen_positions;
+ 
+        // Calculate positions from king's perspective
+        for (ll dx : {-a, a}) {
+            for (ll dy : {-b, b}) {
+                king_positions.insert({x_K + dx, y_K + dy});
+                king_positions.insert({x_K + dy, y_K + dx});
+            }
+        }
+ 
+        // Calculate positions from queen's perspective
+        for (ll dx : {-a, a}) {
+            for (ll dy : {-b, b}) {
+                queen_positions.insert({x_Q + dx, y_Q + dy});
+                queen_positions.insert({x_Q + dy, y_Q + dx});
+            }
+        }
+ 
+        // Find the intersection of both sets
+        set<pii> common_positions;
+        for (const auto& pos : king_positions) {
+            if (queen_positions.count(pos)) {
+                common_positions.insert(pos);
+            }
+        }
+ 
+        // Output the number of common positions
+        cout << common_positions.size() << '\n';
+    }
+ 
+    return 0;
+}
