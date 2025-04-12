@@ -1,0 +1,42 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+int combination(int n, int k) {
+    if (k < 0 || k > n) return 0;
+    if (k == 0 || k == n) return 1;
+    int res = 1;
+    for (int i = 1; i <= k; ++i) {
+        res *= (n - i + 1);
+        res /= i;
+    }
+    return res;
+}
+
+int main() {
+    string s1, s2;
+    cin >> s1 >> s2;
+
+    int target = 0, current = 0, q = 0;
+    for (char c : s1) {
+        if (c == '+') target++;
+        else target--;
+    }
+    for (char c : s2) {
+        if (c == '+') current++;
+        else if (c == '-') current--;
+        else q++;
+    }
+    int delta = target - current;
+    if (abs(delta) > q || (delta + q) % 2 != 0) {
+        cout << fixed << setprecision(12) << 0.0 << endl;
+        return 0;
+    }
+    int k = (delta + q) / 2;
+    int favorable = combination(q, k);
+    int total = 1 << q; 
+    double probability = static_cast<double>(favorable) / total;
+    cout << fixed << setprecision(12) << probability << endl;
+
+    return 0;
+}
